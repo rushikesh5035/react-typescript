@@ -1,30 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Counter.css";
 
 const Counter: React.FC = () => {
   const [CountVal, setCountVal] = useState<number>(0);
 
-  // const handleIncrement = () => {
-  //   setCountVal(CountVal + 1);
-  // };
+  useEffect(() => {
+    console.log("Counter mouted");
+    return function () {
+      console.log("unmount counter");
+    };
+  }, []);
 
-  // const handleDecrement = () => {
-  //   setCountVal(CountVal - 1);
-  // };
+  // Empty dependency array means => whole component
+  // If dependency has some values
+
+  useEffect(() => {
+    console.log("user updated", CountVal);
+
+    return function () {
+      console.log("counter useEffect return", CountVal);
+    };
+  }, [CountVal]);
+
+  const handleIncrement = () => {
+    setCountVal(CountVal + 1);
+  };
+
+  const handleDecrement = () => {
+    setCountVal(CountVal - 1);
+  };
 
   return (
     <div className="counterContainer">
       <h1>{CountVal}</h1>
       <button
-        onClick={() => setCountVal(CountVal + 1)}
+        onClick={handleIncrement}
         style={{ backgroundColor: "lightgreen" }}
       >
         INC
       </button>
-      <button
-        onClick={() => setCountVal(CountVal - 1)}
-        style={{ backgroundColor: "tomato" }}
-      >
+      <button onClick={handleDecrement} style={{ backgroundColor: "tomato" }}>
         DEC
       </button>
     </div>
